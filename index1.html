@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budaya Nusantara - Platform Digital Warisan Budaya Indonesia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #1a5f7a;
+            --primary-dark: #144a5f;
+            --secondary: #57cc99;
+            --secondary-dark: #38b583;
+            --accent: #ffd166;
+            --accent-dark: #ffb74d;
+            --dark: #2d3047;
+            --darker: #1e2030;
+            --light: #f8f9fa;
+            --text: #333333;
+            --text-light: #666666;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --radius: 12px;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: white;
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: rgba(26, 95, 122, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-scrolled {
+            padding: 0.7rem 2rem;
+            background: rgba(45, 48, 71, 0.95);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+            color: var(--accent);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent), #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            transition: var(--transition);
+        }
+
+        nav a:hover:after {
+            width: 80%;
+            left: 10%;
+        }
+
+        nav a.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .datetime-widget {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .date-display {
+            font-weight: 500;
+        }
+
+        .time-display {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 95, 122, 0.9) 0%, rgba(45, 48, 71, 0.9) 100%), url('https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1792&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+            padding: 12rem 2rem 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 3.8rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            line-height: 1.2;
+            font-weight: 800;
+            animation: slideDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease 0.4s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--dark);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.2);
+            min-width: 150px;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            margin: 15px auto;
+            border-radius: 5px;
+            animation: expandWidth 1s ease 0.5s both;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .feature-card:hover:before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(26, 95, 122, 0.3);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotateY(180deg) scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Culture Explorer */
+        .explorer-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .explorer-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .tab-btn.active {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 95, 122, 0.3);
+        }
+
+        .tab-btn.active:before {
+            left: 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .culture-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px) rotateX(10deg);
+        }
+
+        .culture-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .culture-card:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .culture-card:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .culture-card:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .culture-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .culture-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .culture-card-content {
+            padding: 2rem;
+        }
+
+        .culture-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+
+        .culture-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .card-region {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .read-more {
+            color: var(--secondary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .read-more:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            gap: 12px;
+            color: var(--secondary-dark);
+        }
+
+        .read-more:hover:before {
+            left: 0;
+        }
+
+        /* Translation Section */
+        .translation-section {
+            background: white;
+            padding: 6rem 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin: 4rem auto;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .translation-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: rainbow 3s infinite linear;
+        }
+
+        .translation-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .translation-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .translation-input-container {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .translation-input-container {
+                flex-direction: column;
+            }
+        }
+
+        .translation-input, .translation-output {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .translation-input textarea, .translation-result {
+            flex: 1;
+            padding: 1.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: var(--radius);
+            resize: vertical;
+            min-height: 150px;
+            font-family: inherit;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .translation-input textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
+            outline: none;
+            transform: scale(1.01);
+        }
+
+        .translation-result {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+
+        .translation-result.has-content {
+            color: var(--text);
+            border-style: solid;
+            background: white;
+        }
+
+        .language-select {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .language-select select {
+            padding: 0.8rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: var(--radius);
+            background: white;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .language-select select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .translation-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* AI Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            animation: bounce 2s infinite, glow 2s infinite alternate;
+            position: relative;
+        }
+
+        .chatbot-toggle:after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: var(--gradient);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+            animation: none;
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 85px;
+            right: 0;
+            width: 380px;
+            height: 520px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .chatbot-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h3 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            background: #f8f9fa;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            animation: messageAppear 0.3s ease;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .bot-message {
+            background: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .user-message {
+            background: var(--gradient);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 8px rgba(26, 95, 122, 0.3);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px 15px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-light);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        .chatbot-input {
+            display: flex;
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 30px;
+            outline: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .chatbot-input input:focus {
+            border-color: var(--primary);
+        }
+
+        .chatbot-input button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-input button:hover {
+            transform: rotate(15deg) scale(1.05);
+        }
+
+        /* Detail Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            max-width: 800px;
+            max-height: 80vh;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+            transform: translateY(-50px);
+            opacity: 0;
+            overflow-y: auto;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .detail-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .detail-header {
+            text-align: center;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius);
+        }
+
+        .detail-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .info-value {
+            color: var(--text);
+        }
+
+        .detail-description {
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            color: white;
+            padding: 5rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+            gap: 12px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+            color: var(--dark);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .newsletter-form button:hover {
+            background: var(--accent-dark);
+        }
+
+        .copyright {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalSlideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px var(--primary); }
+            to { box-shadow: 0 0 20px var(--secondary); }
+        }
+
+        @keyframes messageAppear {
+            from { 
+                opacity: 0;
+                transform: scale(0.8) translateY(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero h2 {
+                font-size: 3.2rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 2rem;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .hero {
+                padding: 10rem 1.5rem 6rem;
+            }
+
+            .hero h2 {
+                font-size: 2.4rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .chatbot-window {
+                width: 320px;
+                right: 10px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .datetime-widget {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 8rem 1rem 4rem;
+            }
+
+            .section {
+                padding: 4rem 1rem;
+            }
+
+            .chatbot-window {
+                width: 300px;
+                right: 10px;
+            }
+            
+            .hero-stats {
+                gap: 1.5rem;
+            }
+            
+            .stat-item {
+                min-width: 120px;
+                padding: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">
+            <i class="fas fa-landmark"></i>
+        </div>
+        <div class="loading-text">Memuat Budaya Nusantara...</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- Header with Navigation -->
+    <header id="mainHeader">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <h1>Budaya Nusantara</h1>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="#features"><i class="fas fa-star"></i> Fitur</a></li>
+                    <li><a href="#explorer"><i class="fas fa-compass"></i> Jelajahi</a></li>
+                    <li><a href="#translation"><i class="fas fa-language"></i> Penerjemah</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> Tentang</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <div class="datetime-widget" id="datetimeWidget">
+                    <div class="date-display" id="dateDisplay"></div>
+                    <div class="time-display" id="timeDisplay"></div>
+                </div>
+                <div class="language-selector">
+                    <button class="lang-btn active" data-lang="id">ID</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Jelajahi Kekayaan Budaya Indonesia</h2>
+            <p>Platform digital lengkap untuk mempelajari, melestarikan, dan merayakan warisan budaya Nusantara dari Sabang sampai Merauke</p>
+            <div class="hero-buttons">
+                <a href="#explorer" class="btn btn-primary">
+                    <i class="fas fa-play-circle"></i> Mulai Menjelajahi
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i> Pelajari Lebih Lanjut
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="cultureCount">0</span>
+                    <span class="stat-label">Budaya & Tradisi</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="languageCount">0</span>
+                    <span class="stat-label">Bahasa Daerah</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="regionCount">0</span>
+                    <span class="stat-label">Provinsi</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="userCount">0</span>
+                    <span class="stat-label">Pengguna</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Fitur Unggulan Platform</h2>
+                <p class="section-subtitle">Temukan semua yang Anda butuhkan untuk mempelajari budaya Indonesia dalam satu platform terintegrasi</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Penjelajahan Budaya</h3>
+                    <p>Jelajahi kekayaan budaya Indonesia berdasarkan kategori, wilayah, atau kata kunci dengan antarmuka yang intuitif</p>
+                    <a href="#explorer" class="read-more">Jelajahi Sekarang <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Penerjemah Bahasa Daerah</h3>
+                    <p>Terjemahkan teks antar bahasa daerah, Indonesia, dan Inggris dengan akurasi tinggi dan konteks budaya</p>
+                    <a href="#translation" class="read-more">Coba Penerjemah <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Asisten Budaya AI</h3>
+                    <p>Dapatkan jawaban instan tentang budaya Indonesia dengan asisten AI yang memahami konteks lokal</p>
+                    <a href="#" class="read-more" id="openChatbot">Tanya Asisten <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Konten Multimedia</h3>
+                    <p>Akses video, audio, gambar, dan artikel mendalam tentang berbagai aspek budaya Indonesia</p>
+                    <a href="#" class="read-more" id="mediaBtn">Lihat Konten <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Peta Budaya Interaktif</h3>
+                    <p>Jelajahi distribusi budaya di seluruh Indonesia dengan peta interaktif yang informatif</p>
+                    <a href="#" class="read-more" id="mapBtn">Buka Peta <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Komunitas Budaya</h3>
+                    <p>Bergabung dengan komunitas pecinta budaya, berbagi pengetahuan, dan ikuti event budaya</p>
+                    <a href="#" class="read-more" id="communityBtn">Gabung Komunitas <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Explorer Section -->
+    <section class="section explorer-section" id="explorer">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Jelajahi Budaya Nusantara</h2>
+                <p class="section-subtitle">Temukan kekayaan budaya Indonesia melalui berbagai kategori dan filter yang mudah digunakan</p>
+            </div>
+            
+            <div class="explorer-tabs">
+                <button class="tab-btn active" data-tab="traditions">
+                    <i class="fas fa-hands"></i> Tradisi
+                </button>
+                <button class="tab-btn" data-tab="arts">
+                    <i class="fas fa-palette"></i> Kesenian
+                </button>
+                <button class="tab-btn" data-tab="cuisine">
+                    <i class="fas fa-utensils"></i> Kuliner
+                </button>
+                <button class="tab-btn" data-tab="festivals">
+                    <i class="fas fa-calendar-alt"></i> Festival
+                </button>
+                <button class="tab-btn" data-tab="clothing">
+                    <i class="fas fa-tshirt"></i> Pakaian
+                </button>
+            </div>
+            
+            <!-- Traditions Tab -->
+            <div class="tab-content active" id="traditions-tab">
+                <div class="culture-grid">
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Upacara Adat">
+                        <div class="culture-card-content">
+                            <h3>Upacara Adat Jawa</h3>
+                            <p>Ritual tradisional masyarakat Jawa yang kaya akan simbolisme dan filosofi kehidupan</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Jawa Tengah</span>
+                                <a href="#" class="read-more" data-content="tradisi-jawa">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1548124542-44e0c9e004b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Rumah Adat">
+                        <div class="culture-card-content">
+                            <h3>Rumah Adat Toraja</h3>
+                            <p>Arsitektur tradisional Tongkonan dengan atap melengkung khas Sulawesi Selatan</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Sulawesi Selatan</span>
+                                <a href="#" class="read-more" data-content="rumah-toraja">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1562604682-47e0c8e9c8e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tradisi Bali">
+                        <div class="culture-card-content">
+                            <h3>Upacara Ngaben</h3>
+                            <p>Ritual kremasi dalam tradisi Hindu Bali untuk melepas arwah menuju alam selanjutnya</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Bali</span>
+                                <a href="#" class="read-more" data-content="ngaben-bali">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Arts Tab -->
+            <div class="tab-content" id="arts-tab">
+                <div class="culture-grid">
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0d69e1e6d5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wayang Kulit">
+                        <div class="culture-card-content">
+                            <h3>Wayang Kulit</h3>
+                            <p>Seni pertunjukan bayangan yang menggunakan boneka kulit dan telah diakui UNESCO</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Jawa Tengah</span>
+                                <a href="#" class="read-more" data-content="wayang-kulit">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Batik">
+                        <div class="culture-card-content">
+                            <h3>Seni Batik</h3>
+                            <p>Teknik melukis kain menggunakan malam dengan motif yang kaya makna filosofis</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Seluruh Indonesia</span>
+                                <a href="#" class="read-more" data-content="batik">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0d69e1e6d5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tari Tradisional">
+                        <div class="culture-card-content">
+                            <h3>Tari Saman</h3>
+                            <p>Tarian tradisional Aceh dengan gerakan cepat dan harmonis yang memukau</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Aceh</span>
+                                <a href="#" class="read-more" data-content="tari-saman">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cuisine Tab -->
+            <div class="tab-content" id="cuisine-tab">
+                <div class="culture-grid">
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1585937421612-70ca5d0d2937?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Rendang">
+                        <div class="culture-card-content">
+                            <h3>Rendang Padang</h3>
+                            <p>Masakan daging dengan bumbu rempah yang dimasak lama hingga kering dan gurih</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Sumatra Barat</span>
+                                <a href="#" class="read-more" data-content="rendang">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sate">
+                        <div class="culture-card-content">
+                            <h3>Sate Ayam</h3>
+                            <p>Daging ayam tusuk dengan bumbu kacang yang populer di seluruh Indonesia</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Jawa</span>
+                                <a href="#" class="read-more" data-content="sate">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gado-gado">
+                        <div class="culture-card-content">
+                            <h3>Gado-gado</h3>
+                            <p>Salad sayuran Indonesia dengan saus kacang yang lezat dan sehat</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Jakarta</span>
+                                <a href="#" class="read-more" data-content="gado-gado">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Festivals Tab -->
+            <div class="tab-content" id="festivals-tab">
+                <div class="culture-grid">
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Nyepi">
+                        <div class="culture-card-content">
+                            <h3>Nyepi</h3>
+                            <p>Hari raya umat Hindu di Bali yang dirayakan dengan hari keheningan total</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Bali</span>
+                                <a href="#" class="read-more" data-content="nyepi">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1548124542-44e0c9e004b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Waisak">
+                        <div class="culture-card-content">
+                            <h3>Waisak</h3>
+                            <p>Perayaan hari kelahiran, pencerahan, dan wafatnya Buddha Gautama</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Borobudur</span>
+                                <a href="#" class="read-more" data-content="waisak">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1562604682-47e0c8e9c8e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Erau">
+                        <div class="culture-card-content">
+                            <h3>Erau</h3>
+                            <p>Festival budaya Kutai Kartanegara yang penuh dengan ritual dan kesenian tradisional</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Kalimantan Timur</span>
+                                <a href="#" class="read-more" data-content="erau">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Clothing Tab -->
+            <div class="tab-content" id="clothing-tab">
+                <div class="culture-grid">
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kebaya">
+                        <div class="culture-card-content">
+                            <h3>Kebaya</h3>
+                            <p>Blus tradisional wanita Indonesia dengan berbagai variasi daerah yang elegan</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Seluruh Indonesia</span>
+                                <a href="#" class="read-more" data-content="kebaya">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1548124542-44e0c9e004b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Batik">
+                        <div class="culture-card-content">
+                            <h3>Batik</h3>
+                            <p>Kain tradisional Indonesia dengan motif canting yang telah diakui UNESCO</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Jawa</span>
+                                <a href="#" class="read-more" data-content="batik-pakaian">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-card">
+                        <img src="https://images.unsplash.com/photo-1562604682-47e0c8e9c8e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ulos">
+                        <div class="culture-card-content">
+                            <h3>Ulos</h3>
+                            <p>Kain tenun tradisional Batak dengan motif simbolis yang kaya makna</p>
+                            <div class="card-meta">
+                                <span class="card-region"><i class="fas fa-map-marker-alt"></i> Sumatra Utara</span>
+                                <a href="#" class="read-more" data-content="ulos">Selengkapnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Translation Section -->
+    <section class="section translation-section" id="translation">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Penerjemah Bahasa Daerah</h2>
+                <p class="section-subtitle">Terjemahkan teks antar berbagai bahasa daerah Indonesia dengan mudah dan akurat</p>
+            </div>
+            
+            <div class="translation-container">
+                <div class="translation-input-container">
+                    <div class="translation-input">
+                        <div class="language-select">
+                            <label for="source-lang">Dari Bahasa:</label>
+                            <select id="source-lang">
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="en">Bahasa Inggris</option>
+                                <option value="jv">Bahasa Jawa</option>
+                                <option value="su">Bahasa Sunda</option>
+                                <option value="ban">Bahasa Bali</option>
+                                <option value="min">Bahasa Minangkabau</option>
+                                <option value="bug">Bahasa Bugis</option>
+                                <option value="bbc">Bahasa Batak</option>
+                            </select>
+                        </div>
+                        <textarea id="translation-input" placeholder="Ketik teks yang ingin diterjemahkan..."></textarea>
+                    </div>
+                    
+                    <div class="translation-output">
+                        <div class="language-select">
+                            <label for="target-lang">Ke Bahasa:</label>
+                            <select id="target-lang">
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="en">Bahasa Inggris</option>
+                                <option value="jv">Bahasa Jawa</option>
+                                <option value="su">Bahasa Sunda</option>
+                                <option value="ban">Bahasa Bali</option>
+                                <option value="min">Bahasa Minangkabau</option>
+                                <option value="bug">Bahasa Bugis</option>
+                                <option value="bbc">Bahasa Batak</option>
+                            </select>
+                        </div>
+                        <div class="translation-result" id="translation-result">
+                            Hasil terjemahan akan muncul di sini
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="translation-actions">
+                    <button class="btn btn-primary" id="translate-btn">
+                        <i class="fas fa-language"></i> Terjemahkan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Chatbot -->
+    <div class="chatbot-container">
+        <div class="chatbot-toggle" id="chatbotToggle">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <h3><i class="fas fa-robot"></i> Asisten Budaya Nusantara</h3>
+                <button class="chatbot-close" id="chatbotClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    Halo! Saya Asisten Budaya Nusantara. Saya siap membantu Anda menjelajahi kekayaan budaya Indonesia. Ada yang bisa saya bantu?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" placeholder="Ketik pertanyaan tentang budaya Indonesia..." id="chatbotInput">
+                <button id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal detail-modal" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="detailClose">&times;</button>
+            <div class="detail-content" id="detailContent">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="about">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Budaya Nusantara</h3>
+                <p>Platform digital terdepan untuk pelestarian dan promosi warisan budaya Indonesia. Menghubungkan generasi muda dengan akar budaya mereka.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Eksplorasi</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Tradisi & Adat</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Seni & Kerajinan</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Kuliner Nusantara</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Festival & Event</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Pakaian Tradisional</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Fitur</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Penerjemah Bahasa</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Asisten AI Budaya</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Peta Interaktif</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Komunitas</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-right"></i> Konten Edukasi</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hubungi Kami</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +62 21 1234 5678</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> info@budayanusantara.id</a></li>
+                </ul>
+                
+                <h3 style="margin-top: 1.5rem;">Newsletter</h3>
+                <p>Dapatkan update terbaru tentang budaya Indonesia</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Email Anda" id="newsletterEmail">
+                    <button id="newsletterBtn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Budaya Nusantara. Semua hak dilindungi. | Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i> untuk Indonesia</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== LOADING SCREEN ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingProgress = document.getElementById('loadingProgress');
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            initApp();
+                        }, 500);
+                    }, 500);
+                }
+                loadingProgress.style.width = `${progress}%`;
+            }, 200);
+        });
+
+        // ==================== INITIALIZATION ====================
+        function initApp() {
+            initDateTime();
+            initNavigation();
+            initScrollAnimations();
+            initCounters();
+            initTabs();
+            initModals();
+            initChatbot();
+            initTranslation();
+            initLanguageSwitcher();
+        }
+
+        // ==================== DATE & TIME WIDGET ====================
+        function initDateTime() {
+            const dateDisplay = document.getElementById('dateDisplay');
+            const timeDisplay = document.getElementById('timeDisplay');
+            
+            function updateDateTime() {
+                const now = new Date();
+                
+                // Format date
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const dateString = now.toLocaleDateString('id-ID', options);
+                
+                // Format time
+                const timeString = now.toLocaleTimeString('id-ID', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                dateDisplay.textContent = dateString;
+                timeDisplay.textContent = timeString;
+            }
+            
+            // Update immediately and then every second
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        }
+
+        // ==================== NAVIGATION ====================
+        function initNavigation() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            const header = document.getElementById('mainHeader');
+            
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+            
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        // Close mobile menu if open
+                        navMenu.classList.remove('active');
+                        
+                        // Scroll to section
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // ==================== SCROLL ANIMATIONS ====================
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe sections
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Observe feature cards with staggered delay
+            document.querySelectorAll('.feature-card').forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+
+            // Observe culture cards with staggered delay
+            document.querySelectorAll('.culture-card').forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+        }
+
+        // ==================== COUNTER ANIMATIONS ====================
+        function initCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        counters.forEach(counter => {
+                            const target = parseInt(counter.getAttribute('data-target'));
+                            const increment = target / speed;
+                            let current = 0;
+                            
+                            const updateCounter = () => {
+                                if (current < target) {
+                                    current += increment;
+                                    counter.textContent = Math.ceil(current) + '+';
+                                    setTimeout(updateCounter, 10);
+                                } else {
+                                    counter.textContent = target + '+';
+                                }
+                            };
+                            
+                            updateCounter();
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            // Set data targets
+            document.getElementById('cultureCount').setAttribute('data-target', '1000');
+            document.getElementById('languageCount').setAttribute('data-target', '700');
+            document.getElementById('regionCount').setAttribute('data-target', '34');
+            document.getElementById('userCount').setAttribute('data-target', '50');
+            
+            observer.observe(document.querySelector('.hero-stats'));
+        }
+
+        // ==================== TAB SYSTEM ====================
+        function initTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = btn.getAttribute('data-tab') + '-tab';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        // ==================== MODAL SYSTEM ====================
+        function initModals() {
+            const detailModal = document.getElementById('detailModal');
+            const detailClose = document.getElementById('detailClose');
+
+            function openModal(modal) {
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('show');
+                }, 10);
+            }
+
+            function closeModal(modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+
+            // Detail modal events
+            detailClose.addEventListener('click', () => closeModal(detailModal));
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === detailModal) closeModal(detailModal);
+            });
+
+            // Detail modal for culture items
+            document.querySelectorAll('.read-more[data-content]').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const contentId = button.getAttribute('data-content');
+                    loadDetailContent(contentId);
+                    openModal(detailModal);
+                });
+            });
+
+            // Other buttons
+            document.getElementById('mediaBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Fitur konten multimedia akan segera hadir!');
+            });
+
+            document.getElementById('mapBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Peta budaya interaktif akan segera hadir!');
+            });
+
+            document.getElementById('communityBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Fitur komunitas akan segera hadir!');
+            });
+
+            document.getElementById('newsletterBtn').addEventListener('click', () => {
+                const email = document.getElementById('newsletterEmail').value;
+                if (email) {
+                    alert(`Terima kasih! Email ${email} telah berlangganan newsletter kami.`);
+                    document.getElementById('newsletterEmail').value = '';
+                } else {
+                    alert('Masukkan alamat email Anda untuk berlangganan newsletter.');
+                }
+            });
+        }
+
+        // ==================== DETAIL CONTENT LOADER ====================
+        function loadDetailContent(contentId) {
+            const detailContent = document.getElementById('detailContent');
+            const contentData = {
+                'tradisi-jawa': {
+                    title: 'Upacara Adat Jawa',
+                    image: 'https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    description: 'Upacara adat Jawa adalah warisan budaya yang kaya akan simbolisme dan filosofi kehidupan. Setiap ritual memiliki makna mendalam yang terkait dengan siklus kehidupan manusia, mulai dari kelahiran, pernikahan, hingga kematian.',
+                    info: [
+                        { label: 'Asal Daerah', value: 'Jawa Tengah' },
+                        { label: 'Jenis Tradisi', value: 'Upacara Kehidupan' },
+                        { label: 'Status', value: 'Masih Dilestarikan' },
+                        { label: 'Pengakuan', value: 'Warisan Budaya Nasional' }
+                    ],
+                    details: 'Upacara adat Jawa seperti mitoni (7 bulan kehamilan), tedhak siten (turun tanah), dan siraman (mandi pra-nikah) merupakan contoh ritual yang masih dilestarikan. Setiap upacara memiliki tata cara, busana, dan sesaji khusus yang penuh makna filosofis.'
+                },
+                'wayang-kulit': {
+                    title: 'Wayang Kulit',
+                    image: 'https://images.unsplash.com/photo-1594736797933-d0d69e1e6d5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    description: 'Wayang Kulit adalah seni pertunjukan bayangan tradisional Indonesia yang menggunakan boneka kulit yang dimainkan oleh dalang. Pertunjukan wayang biasanya mengisahkan cerita epik Mahabharata dan Ramayana.',
+                    info: [
+                        { label: 'Asal Daerah', value: 'Jawa Tengah' },
+                        { label: 'Jenis Seni', value: 'Pertunjukan Tradisional' },
+                        { label: 'Pengakuan UNESCO', value: 'Masterpiece of Oral and Intangible Heritage' },
+                        { label: 'Tahun Pengakuan', value: '2003' }
+                    ],
+                    details: 'Wayang Kulit tidak hanya sebagai hiburan tetapi juga media pendidikan, penyampai nilai-nilai moral, dan ritual keagamaan. Seorang dalang harus menguasai berbagai keterampilan termasuk memainkan wayang, menyuarakan karakter, dan memahami filosofi cerita.'
+                },
+                'rendang': {
+                    title: 'Rendang Padang',
+                    image: 'https://images.unsplash.com/photo-1585937421612-70ca5d0d2937?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    description: 'Rendang adalah masakan daging yang berasal dari Minangkabau, Sumatra Barat. Proses memasaknya yang lama dengan santan dan rempah-rempah menghasilkan cita rasa yang kaya dan tekstur yang unik.',
+                    info: [
+                        { label: 'Asal Daerah', value: 'Sumatra Barat' },
+                        { label: 'Jenis Masakan', value: 'Gulai Kering' },
+                        { label: 'Bahan Utama', value: 'Daging Sapi, Santan, Rempah' },
+                        { label: 'Pengakuan Internasional', value: 'Nomor 1 CNN World\'s Best Foods' }
+                    ],
+                    details: 'Rendang dimasak dalam waktu lama (biasanya 4-6 jam) hingga santan mengering dan bumbu meresap sempurna ke dalam daging. Proses ini membuat rendang dapat bertahan lama tanpa pendinginan. Terdapat beberapa varian rendang seperti rendang ayam, rendang hati, dan rendang paru.'
+                }
+                // Add more content as needed
+            };
+
+            const data = contentData[contentId] || {
+                title: 'Konten Tidak Ditemukan',
+                image: '',
+                description: 'Maaf, konten yang Anda cari tidak tersedia.',
+                info: [],
+                details: ''
+            };
+
+            let html = `
+                <div class="detail-header">
+                    <h2 class="modal-title">${data.title}</h2>
+                </div>
+            `;
+
+            if (data.image) {
+                html += `<img src="${data.image}" alt="${data.title}" class="detail-image">`;
+            }
+
+            html += `
+                <p class="detail-description">${data.description}</p>
+            `;
+
+            if (data.info.length > 0) {
+                html += `<div class="detail-info">`;
+                data.info.forEach(item => {
+                    html += `
+                        <div class="info-item">
+                            <span class="info-label">${item.label}</span>
+                            <span class="info-value">${item.value}</span>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            if (data.details) {
+                html += `<div class="detail-description">${data.details}</div>`;
+            }
+
+            detailContent.innerHTML = html;
+        }
+
+        // ==================== CHATBOT SYSTEM ====================
+        function initChatbot() {
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            const chatbotClose = document.getElementById('chatbotClose');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            const chatbotInput = document.getElementById('chatbotInput');
+            const chatbotSend = document.getElementById('chatbotSend');
+            const openChatbot = document.getElementById('openChatbot');
+
+            // Toggle chatbot window
+            chatbotToggle.addEventListener('click', () => {
+                chatbotWindow.style.display = 'flex';
+            });
+
+            openChatbot.addEventListener('click', (e) => {
+                e.preventDefault();
+                chatbotWindow.style.display = 'flex';
+            });
+
+            chatbotClose.addEventListener('click', () => {
+                chatbotWindow.style.display = 'none';
+            });
+
+            // Send message function
+            function sendMessage() {
+                const message = chatbotInput.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    chatbotInput.value = '';
+                    
+                    // Show typing indicator
+                    showTypingIndicator();
+                    
+                    // Generate and show bot response
+                    setTimeout(() => {
+                        removeTypingIndicator();
+                        const response = generateBotResponse(message);
+                        addMessage(response, 'bot');
+                    }, 1500 + Math.random() * 1000);
+                }
+            }
+
+            // Event listeners for sending messages
+            chatbotSend.addEventListener('click', sendMessage);
+            chatbotInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', `${sender}-message`);
+                messageDiv.textContent = text;
+                chatbotMessages.appendChild(messageDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+
+            // Show typing indicator
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.classList.add('message', 'bot-message', 'typing-indicator');
+                typingDiv.id = 'typingIndicator';
+                typingDiv.innerHTML = `
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                `;
+                chatbotMessages.appendChild(typingDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+
+            // Remove typing indicator
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Generate bot response (simulated AI)
+            function generateBotResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Greetings
+                if (/(halo|hai|hi|hei|selamat|pagi|siang|sore|malam)/.test(lowerMessage)) {
+                    const greetings = [
+                        "Halo! Senang bertemu dengan Anda. Ada yang bisa saya bantu tentang budaya Indonesia?",
+                        "Selamat datang! Saya siap membantu Anda menjelajahi kekayaan budaya Nusantara.",
+                        "Hai! Mari kita eksplorasi bersama keindahan budaya Indonesia."
+                    ];
+                    return greetings[Math.floor(Math.random() * greetings.length)];
+                }
+                
+                // Traditional dances
+                if (/(tari|dance|tarian)/.test(lowerMessage)) {
+                    return "Indonesia memiliki ratusan tarian tradisional! Tari Saman dari Aceh terkenal dengan gerakan tangan yang cepat, Tari Kecak dari Bali dengan puluhan penari membentuk lingkaran, Tari Pendet untuk penyambutan tamu, dan Tari Piring dari Minangkabau yang menampilkan piring di tangan penari. Tarian mana yang ingin Anda ketahui lebih detail?";
+                }
+                
+                // Traditional foods
+                if (/(makanan|kuliner|food|masakan|makan)/.test(lowerMessage)) {
+                    return "Kuliner Indonesia sangat beragam! Rendang dari Padang yang gurih, Sate dengan berbagai varian, Soto ayam yang hangat, Gado-gado sebagai salad khas, Nasi Goreng yang mendunia, dan masih banyak lagi. Makanan daerah mana yang paling menarik perhatian Anda?";
+                }
+                
+                // Traditional textiles
+                if (/(batik|tenun|kain|tekstil|songket|ulos)/.test(lowerMessage)) {
+                    return "Tekstil tradisional Indonesia sangat kaya! Batik dari Jawa dengan teknik canting, Tenun Ikat dari Nusa Tenggara dengan motif geometris, Songket dari Sumatra dengan benang emas, Ulos dari Batak yang penuh makna, dan Lurik dari Jawa dengan garis-garis sederhana. Tekstil mana yang ingin Anda pelajari?";
+                }
+                
+                // General cultural information
+                if (/(budaya|kebudayaan|tradisi|warisan|indonesia)/.test(lowerMessage)) {
+                    return "Indonesia memiliki kekayaan budaya yang luar biasa! Dengan lebih dari 1.300 suku bangsa, 700 bahasa daerah, dan ribuan tradisi yang masih hidup. Setiap daerah memiliki seni, musik, tarian, pakaian, rumah adat, dan kuliner yang unik. Bagian budaya Indonesia mana yang paling menarik minat Anda?";
+                }
+                
+                // Fallback response
+                const fallbacks = [
+                    "Maaf, saya belum sepenuhnya memahami pertanyaan Anda. Bisa tolong dijelaskan lebih detail?",
+                    "Menarik sekali pertanyaannya! Bisakah Anda memberikan lebih banyak konteks tentang apa yang ingin Anda ketahui?",
+                    "Saya ingin membantu Anda dengan pertanyaan tersebut. Bisa ceritakan lebih lanjut tentang topik yang Anda minati?"
+                ];
+                return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+            }
+        }
+
+        // ==================== TRANSLATION SYSTEM ====================
+        function initTranslation() {
+            const translateBtn = document.getElementById('translate-btn');
+            const sourceLang = document.getElementById('source-lang');
+            const targetLang = document.getElementById('target-lang');
+            const translationInput = document.getElementById('translation-input');
+            const translationResult = document.getElementById('translation-result');
+
+            // Sample translation dictionary (in a real app, this would be an API call)
+            const translationDictionary = {
+                // Indonesian to other languages
+                'id': {
+                    'en': {
+                        'selamat pagi': 'good morning',
+                        'terima kasih': 'thank you',
+                        'saya cinta indonesia': 'i love indonesia',
+                        'apa kabar': 'how are you',
+                        'nama saya': 'my name is',
+                        'budaya indonesia': 'indonesian culture',
+                        'makanan tradisional': 'traditional food',
+                        'tarian daerah': 'regional dance',
+                        'pakaian adat': 'traditional clothing',
+                        'rumah tradisional': 'traditional house'
+                    },
+                    'jv': {
+                        'selamat pagi': 'sugeng enjang',
+                        'terima kasih': 'matur nuwun',
+                        'saya cinta indonesia': 'aku tresna marang indonesia',
+                        'apa kabar': 'piye kabare',
+                        'nama saya': 'jenengku',
+                        'budaya indonesia': 'budaya indonesia',
+                        'makanan tradisional': 'panganan tradisional',
+                        'tarian daerah': 'tari daerah',
+                        'pakaian adat': 'busana adat',
+                        'rumah tradisional': 'omah tradisional'
+                    },
+                    'su': {
+                        'selamat pagi': 'wilujeng enjing',
+                        'terima kasih': 'hatur nuhun',
+                        'saya cinta indonesia': 'abdi nyaah ka indonesia',
+                        'apa kabar': 'kumaha damang',
+                        'nama saya': 'nami abdi',
+                        'budaya indonesia': 'budaya indonesia',
+                        'makanan tradisional': 'kadaharan tradisional',
+                        'tarian daerah': 'tari daerah',
+                        'pakaian adat': 'pakean adat',
+                        'rumah tradisional': 'imah tradisional'
+                    }
+                },
+                // English to other languages
+                'en': {
+                    'id': {
+                        'good morning': 'selamat pagi',
+                        'thank you': 'terima kasih',
+                        'i love indonesia': 'saya cinta indonesia',
+                        'how are you': 'apa kabar',
+                        'my name is': 'nama saya',
+                        'indonesian culture': 'budaya indonesia',
+                        'traditional food': 'makanan tradisional',
+                        'regional dance': 'tarian daerah',
+                        'traditional clothing': 'pakaian adat',
+                        'traditional house': 'rumah tradisional'
+                    },
+                    'jv': {
+                        'good morning': 'sugeng enjang',
+                        'thank you': 'matur nuwun',
+                        'i love indonesia': 'aku tresna marang indonesia',
+                        'how are you': 'piye kabare',
+                        'my name is': 'jenengku',
+                        'indonesian culture': 'budaya indonesia',
+                        'traditional food': 'panganan tradisional',
+                        'regional dance': 'tari daerah',
+                        'traditional clothing': 'busana adat',
+                        'traditional house': 'omah tradisional'
+                    }
+                },
+                // Javanese to other languages
+                'jv': {
+                    'id': {
+                        'sugeng enjang': 'selamat pagi',
+                        'matur nuwun': 'terima kasih',
+                        'aku tresna marang indonesia': 'saya cinta indonesia',
+                        'piye kabare': 'apa kabar',
+                        'jenengku': 'nama saya',
+                        'budaya indonesia': 'budaya indonesia',
+                        'panganan tradisional': 'makanan tradisional',
+                        'tari daerah': 'tarian daerah',
+                        'busana adat': 'pakaian adat',
+                        'omah tradisional': 'rumah tradisional'
+                    },
+                    'en': {
+                        'sugeng enjang': 'good morning',
+                        'matur nuwun': 'thank you',
+                        'aku tresna marang indonesia': 'i love indonesia',
+                        'piye kabare': 'how are you',
+                        'jenengku': 'my name is',
+                        'budaya indonesia': 'indonesian culture',
+                        'panganan tradisional': 'traditional food',
+                        'tari daerah': 'regional dance',
+                        'busana adat': 'traditional clothing',
+                        'omah tradisional': 'traditional house'
+                    }
+                }
+                // Add more language pairs as needed
+            };
+
+            // Translate function
+            translateBtn.addEventListener('click', () => {
+                const source = sourceLang.value;
+                const target = targetLang.value;
+                const text = translationInput.value.trim().toLowerCase();
+                
+                if (!text) {
+                    translationResult.textContent = 'Masukkan teks untuk diterjemahkan';
+                    return;
+                }
+                
+                // Show loading state
+                translationResult.textContent = 'Menerjemahkan...';
+                translationResult.classList.remove('has-content');
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    let translatedText = '';
+                    
+                    // Check if translation exists in dictionary
+                    if (translationDictionary[source] && translationDictionary[source][target]) {
+                        // Try to find exact match first
+                        if (translationDictionary[source][target][text]) {
+                            translatedText = translationDictionary[source][target][text];
+                        } else {
+                            // Try to find partial matches
+                            let found = false;
+                            for (const key in translationDictionary[source][target]) {
+                                if (text.includes(key) || key.includes(text)) {
+                                    translatedText = translationDictionary[source][target][key];
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            
+                            if (!found) {
+                                translatedText = `[Penerjemahan dari ${getLanguageName(source)} ke ${getLanguageName(target)}]: "${text}"`;
+                            }
+                        }
+                    } else {
+                        translatedText = `Terjemahan dari ${getLanguageName(source)} ke ${getLanguageName(target)} belum tersedia untuk: "${text}"`;
+                    }
+                    
+                    translationResult.textContent = translatedText;
+                    translationResult.classList.add('has-content');
+                    
+                    // Add animation
+                    translationResult.style.animation = 'none';
+                    setTimeout(() => {
+                        translationResult.style.animation = 'pulse 0.5s ease';
+                    }, 10);
+                }, 1000);
+            });
+            
+            // Helper function to get language name
+            function getLanguageName(code) {
+                const languages = {
+                    'id': 'Bahasa Indonesia',
+                    'en': 'Bahasa Inggris',
+                    'jv': 'Bahasa Jawa',
+                    'su': 'Bahasa Sunda',
+                    'ban': 'Bahasa Bali',
+                    'min': 'Bahasa Minangkabau',
+                    'bug': 'Bahasa Bugis',
+                    'bbc': 'Bahasa Batak'
+                };
+                return languages[code] || code;
+            }
+        }
+
+        // ==================== LANGUAGE SWITCHER ====================
+        function initLanguageSwitcher() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const currentLang = 'id'; // Default language
+            
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const selectedLang = button.getAttribute('data-lang');
+                    
+                    // Update active state
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // In a real application, this would change all text content
+                    // For this demo, we'll just show an alert
+                    if (selectedLang !== currentLang) {
+                        alert(`Bahasa diubah ke ${selectedLang === 'id' ? 'Indonesia' : 'English'}`);
+                        // Here you would typically:
+                        // 1. Make an API call to get translated content
+                        // 2. Update all text elements on the page
+                        // 3. Possibly update the HTML lang attribute
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
